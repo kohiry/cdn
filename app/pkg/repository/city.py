@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 import psycopg2
 from typing import List, Optional
 
@@ -49,8 +47,9 @@ class CityRepository:
                     )
                 return None
 
+    # @lru_cache(maxsize=128)  в идеале конечно кешировать хотяб,
+    # но вам будет геморно тестить
     @staticmethod
-    @lru_cache(maxsize=128)
     def list() -> List[CityResponse]:
         with get_connection() as conn:
             with conn.cursor() as cur:
