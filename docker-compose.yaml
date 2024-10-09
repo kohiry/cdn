@@ -6,6 +6,9 @@ services:
     volumes:
       - .:/backend
     command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    depends_on:
+      - postgres
+      - migrations
     ports:
       - "8000:8000"
 
@@ -17,3 +20,18 @@ services:
       POSTGRES_PASSWORD: ${P_PASS}
     ports:
       - "5432:5432"
+
+  migrations:
+    build:
+      dockerfile: docker/migrations/Dockerfile
+      context: .
+    container_name: yoyo-migrations
+    depends_on:
+      - postgres
+    volumes:
+      - ./migrations:/migrations
+    command: yoyo apply --database ${DATABASE_URL} /migrations
+
+
+volumes:
+  postgres_data:
