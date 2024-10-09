@@ -28,6 +28,7 @@ services:
     container_name: yoyo-migrations
     depends_on:
       - postgres
+    restart: on-failure:10
     volumes:
       - ./migrations:/migrations
     command: yoyo apply --database ${DATABASE_URL} /migrations
