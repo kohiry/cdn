@@ -5,5 +5,5 @@ upb:
 upd:
 	docker-compose down
 test:
-	pytest --cov=app tests/
+	pytest --cov=main.app tests/
 
